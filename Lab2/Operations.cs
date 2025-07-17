@@ -4,13 +4,46 @@ public class Operations
 {
     public static void Main()
     {
-        DivideAndJoin("A Terra é o terceiro planeta do sistema solar.");
-        DivideAndJoin("O Corinthians é o maior clube do Brasil.");
+        Console.WriteLine("===== ATV. 1 =====");
+
+        Console.WriteLine("Digite uma frase para ser embaralhada:");
+        var mixableContent = Console.ReadLine();
+        if (mixableContent != null)
+            DivideAndJoin(mixableContent);
+        else
+            Console.WriteLine("Não foi possível embaralhar, o conteúdo é nulo.");
         
-        GetSubstring("Eu estou estudando RabbitMQ", "estudando");
+        Console.WriteLine("===== ATV. 2 =====");
         
-        SearchCharacters("Eu estou no terceiro semestre de Engenharia de Software", 
-            new string[] { "estou", "semestre", "Software", "teste" });
+        Console.WriteLine("Digite uma frase:");
+        var searchableContent = Console.ReadLine();
+
+        Console.WriteLine("Digite uma substring para ser procurada na frase:");
+        var substring = Console.ReadLine();
+
+        if (searchableContent != null && substring != null)
+            GetSubstring(searchableContent, substring);
+        else
+            Console.WriteLine("Não foi possível pesquisar, os valores passados são nulos.");
+        
+        Console.WriteLine("===== ATV. 3 =====");
+        
+        Console.WriteLine("Digite uma frase:");
+        var searchableStringsContent = Console.ReadLine();
+        
+        Console.WriteLine("Digite as cadeias a serem procuradas na frase, separadas por ',' (vírgula):");
+        var stringSearch = Console.ReadLine();
+
+        if (searchableStringsContent != null && stringSearch != null)
+        {
+            var arraySearch = stringSearch.Split(",");
+            SearchCharacters(searchableStringsContent, arraySearch);            
+        }
+        else
+        {
+            Console.WriteLine("Não foi possível pesquisar, os valores passados são nulos.");
+            
+        }
     }
     
     public static void DivideAndJoin(string content)
