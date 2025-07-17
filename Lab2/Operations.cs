@@ -4,7 +4,9 @@ public class Operations
 {
     public static void Main()
     {
+        Console.BackgroundColor = ConsoleColor.DarkBlue;
         Console.WriteLine("===== ATV. 1 =====");
+        Console.BackgroundColor = ConsoleColor.Black;
 
         Console.WriteLine("Digite uma frase para ser embaralhada:");
         var mixableContent = Console.ReadLine();
@@ -13,8 +15,10 @@ public class Operations
         else
             Console.WriteLine("Não foi possível embaralhar, o conteúdo é nulo.");
         
+        Console.BackgroundColor = ConsoleColor.DarkBlue;
         Console.WriteLine("===== ATV. 2 =====");
-        
+        Console.BackgroundColor = ConsoleColor.Black;
+
         Console.WriteLine("Digite uma frase:");
         var searchableContent = Console.ReadLine();
 
@@ -26,7 +30,9 @@ public class Operations
         else
             Console.WriteLine("Não foi possível pesquisar, os valores passados são nulos.");
         
+        Console.BackgroundColor = ConsoleColor.DarkBlue;
         Console.WriteLine("===== ATV. 3 =====");
+        Console.BackgroundColor = ConsoleColor.Black;
         
         Console.WriteLine("Digite uma frase:");
         var searchableStringsContent = Console.ReadLine();
