@@ -4,16 +4,24 @@ namespace Lab3;
 
 public partial class MainWindow : Window
 {
+    private UserViewModel _userViewModel;
 
     public MainWindow()
     {
         InitializeComponent();
+        NavigateToFirstPage();
     }
     
-    private void RevelationButton_Click(object sender, RoutedEventArgs e)
+    private void NavigateToFirstPage()
     {
-        RevelationText.Text = "O Corinthians é o maior clube do Brasil.";
-        RevelationButton.IsEnabled = false;
-        RevelationButton.Content = "Revelado!";
+        var registerPage = new Register();
+        registerPage.NavigationRequested += OnNavigationRequested;
+        MainFrame.Navigate(registerPage);
     }
+
+    private void OnNavigationRequested(Uri uri)
+    {
+        MainFrame.Navigate(uri);
+    }
+    
 }
