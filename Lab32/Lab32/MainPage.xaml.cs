@@ -1,6 +1,6 @@
 namespace Lab32;
 
-public sealed partial class MainPage : Page
+public partial class MainPage : Page
 {
     public UserViewModel UserViewModel => (UserViewModel)this.DataContext;
     public MainPage()
