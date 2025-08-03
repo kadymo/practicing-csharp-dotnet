@@ -10,6 +10,7 @@ public class GameManager
     private GameObject _projectile;
     
     private readonly InputManager _inputManager;
+    private readonly SoundManager _soundManager;
 
     private bool _canShoot = true;
     private DateTime _lastUpdate;
@@ -21,9 +22,10 @@ public class GameManager
     public event EventHandler<GameObject> OnProjectileExceededScreen;
     public event EventHandler<CollisionEventArgs> OnProjectileHit;
     
-    public GameManager(InputManager inputManager)
+    public GameManager(InputManager inputManager, SoundManager soundManager)
     {
         _inputManager = inputManager;
+        _soundManager = soundManager;
 
         this.OnProjectileExceededScreen += (sender, gameObject) =>
         {
