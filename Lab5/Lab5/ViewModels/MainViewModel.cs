@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Lab5.Models;
+using Uno.Extensions;
 
 namespace Lab5.ViewModels;
 
@@ -16,21 +17,67 @@ public partial class MainViewModel : ObservableObject
     [ObservableProperty]
     private string _email;
     
+    [ObservableProperty]
+    private string _searchTerm;
+    
+    private List<User> _allUsers { get; set; }
     public ObservableCollection<User> Users { get; set; }
 
     public MainViewModel()
     {
-        Users = new ObservableCollection<User>
+        _allUsers = new List<User>
         {
-            new User { Firstname = "Kádymo", Lastname = "Santana", Email = "kadymo@email.com" },
-            new User { Firstname = "João", Lastname = "Silva", Email = "joao@email.com" },
-            new User { Firstname = "Pedro", Lastname = "Santos", Email = "pedro@email.com" },
+            new User { FirstName = "Kádymo", LastName = "Santana", Email = "kadymo@email.com" },
+            new User { FirstName = "João", LastName = "Silva", Email = "joao@email.com" },
+            new User { FirstName = "Pedro", LastName = "Santos", Email = "pedro@email.com" },
         };
+        
+        Users = new ObservableCollection<User>(_allUsers);
     }
 
     [RelayCommand]
     private void SaveData()
     {
-        Users.Add(new User { Firstname = _firstName, Lastname = _lastName, Email = _email });
+        var newUser = new User { FirstName = FirstName, LastName = LastName, Email = Email }; 
+        _allUsers.Add(newUser);
+        Users.Add(newUser);
+        
+        FirstName = String.Empty;
+        LastName = String.Empty;
+    }
+
+    [RelayCommand]
+    private void SearchByEmail()
+    {
+        Users.Clear();
+        var filter = _allUsers.Where(x => x.Email.Contains(SearchTerm, StringComparison.OrdinalIgnoreCase)).ToList();
+        var filteredUsers = string.IsNullOrWhiteSpace(SearchTerm) ? _allUsers : filter;
+
+        foreach (var user in filteredUsers)
+        {
+            Users.Add(user);
+        }
+    }
+
+    [RelayCommand]
+    private void OrderByAsc()
+    {
+        var sortedUsers = _allUsers.OrderBy(x => x.FirstName).ToList();
+        Users.Clear();
+        foreach (var user in sortedUsers)
+        {
+            Users.Add(user);
+        }
+    }
+    
+    [RelayCommand]
+    private void OrderByDesc()
+    {
+        var sortedUsers = _allUsers.OrderByDescending(x => x.FirstName).ToList();
+        Users.Clear();
+        foreach (var user in sortedUsers)
+        {
+            Users.Add(user);       
+        }
     }
 }
