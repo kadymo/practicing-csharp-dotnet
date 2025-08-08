@@ -4,9 +4,9 @@
       xmlns:viewModels="clr-namespace:Lab5.ViewModels"
       xmlns:controls="clr-namespace:CommunityToolkit.WinUI.UI.Controls;assembly=CommunityToolkit.WinUI.UI.Controls.Core"
       Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-    <Page.DataContext>
-        <viewModels:MainViewModel x:Name="ViewModel" />
-    </Page.DataContext>
+    <!-- <Page.DataContext> -->
+    <!--     <viewModels:MainViewModel x:Name="ViewModel" /> -->
+    <!-- </Page.DataContext> -->
 
     <ScrollViewer IsTabStop="True">
     <Grid>
@@ -45,6 +45,7 @@
                 </ListView.ItemTemplate>
             </ListView>
         </StackPanel>
+        <controls:InAppNotification x:Name="Notification" Background="#87cefa" />
     </Grid>
   </ScrollViewer>
 </Page>

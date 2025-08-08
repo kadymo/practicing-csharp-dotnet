@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using Lab5.Models;
 using Uno.Extensions;
 
@@ -8,6 +9,8 @@ namespace Lab5.ViewModels;
 
 public partial class MainViewModel : ObservableObject
 {
+    private readonly IMessenger _messenger;
+    
     [ObservableProperty]
     private string _firstName;
 
@@ -23,8 +26,9 @@ public partial class MainViewModel : ObservableObject
     private List<User> _allUsers { get; set; }
     public ObservableCollection<User> Users { get; set; }
 
-    public MainViewModel()
+    public MainViewModel(IMessenger messenger)
     {
+        _messenger = messenger;
         _allUsers = new List<User>
         {
             new User { FirstName = "Kádymo", LastName = "Santana", Email = "kadymo@email.com" },
@@ -44,6 +48,7 @@ public partial class MainViewModel : ObservableObject
         
         FirstName = String.Empty;
         LastName = String.Empty;
+        _messenger.Send("Usuário adicionado com sucesso!");
     }
 
     [RelayCommand]
@@ -57,6 +62,8 @@ public partial class MainViewModel : ObservableObject
         {
             Users.Add(user);
         }
+
+        _messenger.Send("Pesquisa por e-mail realizada com sucesso!");
     }
 
     [RelayCommand]
@@ -68,6 +75,8 @@ public partial class MainViewModel : ObservableObject
         {
             Users.Add(user);
         }
+        
+        _messenger.Send("Ordenação por nome em ordem crescente realizada com sucesso!");
     }
     
     [RelayCommand]
@@ -79,5 +88,7 @@ public partial class MainViewModel : ObservableObject
         {
             Users.Add(user);       
         }
+
+        _messenger.Send("Ordenação por nome em ordem decrescente realizada com sucesso!");
     }
 }
