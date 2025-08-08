@@ -1,0 +1,42 @@
+<Page x:Class="Lab5.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+      xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+      xmlns:local="using:Lab5"
+      xmlns:viewModels="clr-namespace:Lab5.ViewModels"
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.DataContext>
+        <viewModels:MainViewModel x:Name="ViewModel" />
+    </Page.DataContext>
+
+    <ScrollViewer IsTabStop="True">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Spacing="10" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TextBox x:Name="Firstname" Width="200" Text="{x:Bind ViewModel.FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }" PlaceholderText="Nome" />
+            <TextBox x:Name="Lastname" Width="200" Text="{x:Bind ViewModel.LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="Sobrenome"/>
+            <TextBox x:Name="Email" Width="200" Text="{x:Bind ViewModel.Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="E-mail" />
+            <Button Width="200" x:Name="SaveButton" Content="Salvar dados" Command="{Binding SaveDataCommand}" />
+        </StackPanel>
+
+        <StackPanel Grid.Row="1">
+            <ListView Header="Usua&#x301;rios" ItemsSource="{Binding Users}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal" Padding="10">
+                            <TextBlock Margin="16,8" Width="200" Text="{Binding Firstname}"/>
+                            <TextBlock Margin="16,8" Width="200" Text="{Binding Lastname}"/>
+                            <TextBlock Margin="16,8" Width="200" Text="{Binding Email}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackPanel>
+    </Grid>
+  </ScrollViewer>
+</Page>
