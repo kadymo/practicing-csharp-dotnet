@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using Lab5.Enums;
 using Lab5.Models;
 using Uno.Extensions;
 
@@ -22,6 +23,9 @@ public partial class MainViewModel : ObservableObject
     
     [ObservableProperty]
     private string _searchTerm;
+
+    private Stack<string> _errorsStack { get; set; } = new();
+    public ObservableCollection<string> Errors { get; set; } = new();
     
     private List<User> _allUsers { get; set; }
     public ObservableCollection<User> Users { get; set; }
@@ -42,13 +46,38 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     private void SaveData()
     {
-        var newUser = new User { FirstName = FirstName, LastName = LastName, Email = Email }; 
-        _allUsers.Add(newUser);
-        Users.Add(newUser);
+        try
+        {
+            if (string.IsNullOrWhiteSpace(FirstName) || string.IsNullOrWhiteSpace(LastName) ||
+                string.IsNullOrWhiteSpace(Email))
+            {
+                throw new ArgumentException($"{DateTime.Now} - Todos os campos são obrigatórios.");
+            }
+
+            if (_allUsers.Any(x => x.Email.Equals(Email, StringComparison.OrdinalIgnoreCase)))
+            {
+                throw new ArgumentException($"{DateTime.Now} - O e-mail inserido já existe.");
+            } 
+            
+            var newUser = new User { FirstName = FirstName, LastName = LastName, Email = Email };
+            
+            _allUsers.Add(newUser);
+            Users.Add(newUser);
         
-        FirstName = String.Empty;
-        LastName = String.Empty;
-        _messenger.Send("Usuário adicionado com sucesso!");
+            FirstName = String.Empty;
+            LastName = String.Empty;
+            Email = String.Empty;
+            
+            _messenger.Send("Usuário adicionado com sucesso!");
+        }
+        catch (ArgumentException ex)
+        {
+            var errorMessage = new NotificationMessage($"Erro: {ex.Message}", NotificationType.Error);
+            _messenger.Send(errorMessage);
+            
+            _errorsStack.Push(ex.Message);
+            Errors.Add(_errorsStack.Peek());
+        }
     }
 
     [RelayCommand]
@@ -91,4 +120,16 @@ public partial class MainViewModel : ObservableObject
 
         _messenger.Send("Ordenação por nome em ordem decrescente realizada com sucesso!");
     }
+
+    [RelayCommand]
+    private void ShowErrors()
+    {
+        Errors.Remove("Nenhum erro para mostrar");
+        if (_errorsStack.Count == 0)
+        { 
+            Errors.Add("Nenhum erro para mostrar");
+        }
+    }
+    
+    
 }
