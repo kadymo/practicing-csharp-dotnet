@@ -4,10 +4,6 @@
       xmlns:viewModels="clr-namespace:Lab5.ViewModels"
       xmlns:controls="clr-namespace:CommunityToolkit.WinUI.UI.Controls;assembly=CommunityToolkit.WinUI.UI.Controls.Core"
       Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-    <!-- <Page.DataContext> -->
-    <!--     <viewModels:MainViewModel x:Name="ViewModel" /> -->
-    <!-- </Page.DataContext> -->
-
     <ScrollViewer IsTabStop="True">
     <Grid>
         <Grid.RowDefinitions>
@@ -16,6 +12,21 @@
         </Grid.RowDefinitions>
 
         <StackPanel Spacing="10" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Button Content="Ver Logs" Width="400" Command="{Binding ShowErrorsCommand}">
+                <Button.Flyout>
+                    <Flyout Placement="Bottom">
+                        <Flyout.Content>
+                            <StackPanel Width="800" Spacing="10">
+                                <ListView ItemsSource="{Binding Errors}">
+                                    <DataTemplate>
+                                        <TextBlock Margin="16,8" Width="200" Text="{Binding Message}" />
+                                    </DataTemplate>
+                                </ListView>
+                            </StackPanel>
+                        </Flyout.Content>
+                    </Flyout>
+                </Button.Flyout>
+            </Button>
             <TextBox x:Name="Firstname" Width="400" Text="{x:Bind ViewModel.FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }" PlaceholderText="Nome" />
             <TextBox x:Name="Lastname" Width="400" Text="{x:Bind ViewModel.LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="Sobrenome"/>
             <TextBox x:Name="Email" Width="400" Text="{x:Bind ViewModel.Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="E-mail" />
@@ -45,7 +56,7 @@
                 </ListView.ItemTemplate>
             </ListView>
         </StackPanel>
-        <controls:InAppNotification x:Name="Notification" Background="#87cefa" />
+        <controls:InAppNotification x:Name="Notification" Background="#555" />
     </Grid>
   </ScrollViewer>
 </Page>
